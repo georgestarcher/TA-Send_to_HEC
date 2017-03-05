@@ -1,0 +1,81 @@
+<form class="form-horizontal form-complex">
+<div class="control-group">
+	<label class="control-label" for="sendtohec_u_splunkserver">HEC Server <span class="required">*</span> </label>
+    <div class="controls">
+	<input type="text" name="action.sendtohec.param.u_splunkserver" id="sendtohec_u_splunkserver"/>
+                <span class="help-block"> 
+                    Name or IP of the destination HEC receiver.
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="sendtohec_u_splunkserverport">HEC Server Port <span class="required">*</span> </label>
+    <div class="controls">
+	<input type="text" name="action.sendtohec.param.u_splunkserverport" id="sendtohec_u_splunkserverport"/>
+                <span class="help-block"> 
+                    The port on the HEC Receiver
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="sendtohec_u_hectoken">HEC Token <span class="required">*</span> </label>
+    <div class="controls">
+	<input type="password" name="action.sendtohec.param.u_hectoken" id="sendtohec_u_hectoken"/>
+                <span class="help-block"> 
+                    HEC API Token
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label">Send Data Type</label>
+		<div class="controls">
+				<label class="radio" for="sendtohec_u_senddatatype_json">
+					<input type="radio" name="action.sendtohec.param.u_senddatatype" id="sendtohec_u_senddatatype_json" value="json"/>
+					JSON
+				</label>
+				<label class="radio" for="sendtohec_u_senddatatype_raw">
+					<input type="radio" name="action.sendtohec.param.u_senddatatype" id="sendtohec_u_senddatatype_raw" value="raw"/>
+					RAW
+				</label>
+                <span class="help-block"> 
+                    Using RAW sends _raw field without modification. Using JSON sends search results and _raw.
+                </span>
+		</div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="sendtohec_u_destindex">Index  </label>
+    <div class="controls">
+	<input type="text" name="action.sendtohec.param.u_destindex" id="sendtohec_u_destindex"/>
+                <span class="help-block"> 
+                    Destination Index (Leave Blank to use value from Event)
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="sendtohec_u_destsourcetype">Sourcetype  </label>
+    <div class="controls">
+	<input type="text" name="action.sendtohec.param.u_destsourcetype" id="sendtohec_u_destsourcetype"/>
+                <span class="help-block"> 
+                    Destination Sourcetype (Leave Blank to use value from Event)
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="sendtohec_u_host">Host  </label>
+    <div class="controls">
+	<input type="text" name="action.sendtohec.param.u_host" id="sendtohec_u_host"/>
+                <span class="help-block"> 
+                    (Leave Blank to use value from Event)
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="sendtohec_u_destsource">Source  </label>
+    <div class="controls">
+	<input type="text" name="action.sendtohec.param.u_destsource" id="sendtohec_u_destsource"/>
+                <span class="help-block"> 
+                    (Leave Blank to use value from Event)
+                </span>
+    </div>
+</div>
+</form>

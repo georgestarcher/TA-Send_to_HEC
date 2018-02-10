@@ -124,7 +124,7 @@ def process_event(helper, *args, **kwargs):
         if 'source' in entry: entry.pop('source')
         if 'host' in entry: entry.pop('host')
 
-        entry = {k:entry.get(k) for k,v in entry.items() if not k.startswith('_')}
+        entry = {k:entry.get(k) for k,v in entry.items() if v and not k.startswith('_')}
         
         payload['event'] = json.dumps(entry)
             

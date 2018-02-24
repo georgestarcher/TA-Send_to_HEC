@@ -88,6 +88,9 @@ def process_event(helper, *args, **kwargs):
     else:
         destCollector = http_event_collector(u_hectoken, u_splunkserver, 'json', '', u_splunkserverport)
 
+    # Enable popping empty fields
+    destCollector.popNullFields = True
+
     if u_senddatatype=="raw":
         for entry in searchResults:
             hasSearchResults = True
@@ -131,14 +134,14 @@ def process_event(helper, *args, **kwargs):
         if 'source' in entry: entry.pop('source')
         if 'host' in entry: entry.pop('host')
 
-        #event payload minus empty fields, hidden fields and reserved splunk fields
-        entry = {k:entry.get(k) for k,v in entry.items() if v and not k.startswith('_')}
+        # event payload minus hidden fields and reserved splunk fields
+        entry = {k:entry.get(k) for k,v in entry.items() if k.startswith('_')}
     
         # clean off Splunk specific fields from payload
         entry.pop('punct')
         entry.pop('splunk_server')
          
-        payload['event'] = json.dumps(entry)
+        payload['event'] = entry
             
         destCollector.batchEvent(payload)
 

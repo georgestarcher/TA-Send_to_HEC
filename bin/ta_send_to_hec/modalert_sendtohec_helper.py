@@ -81,10 +81,7 @@ def process_event(helper, *args, **kwargs):
     u_destsource = helper.get_param("u_destsource")
 
     searchResults = helper.get_events()
-
-    if searchResults is None:
-        helper.log_error("FATAL Empty Search Results, nothing to send.")
-        return 1
+    hasSearchResults = False
 
     if u_senddatatype=="raw":
         destCollector = http_event_collector(u_hectoken, u_splunkserver, 'raw', '', u_splunkserverport)
@@ -93,15 +90,25 @@ def process_event(helper, *args, **kwargs):
 
     if u_senddatatype=="raw":
         for entry in searchResults:
+            hasSearchResults = True
             payload = entry.get('_raw')
             destCollector.batchEvent("{}".format(payload))
-        destCollector.flushBatch()
+        if not hasSearchResults:
+            helper.log_info("Empty Search Results")
+        else:
+            destCollector.flushBatch()
         helper.log_info("Alert action sendtohec completed.")
         return 0
-            
+
+    
+    # handle if send type is JSON
+        
     for entry in searchResults:
 
+        hasSearchResults = True
         payload = {}
+
+        #handle metadata for event
         if u_destindex:
             payload['index'] = u_destindex
         else: 
@@ -124,13 +131,22 @@ def process_event(helper, *args, **kwargs):
         if 'source' in entry: entry.pop('source')
         if 'host' in entry: entry.pop('host')
 
+        #event payload minus empty fields, hidden fields and reserved splunk fields
         entry = {k:entry.get(k) for k,v in entry.items() if v and not k.startswith('_')}
-        
+    
+        # clean off Splunk specific fields from payload
+        entry.pop('punct')
+        entry.pop('splunk_server')
+         
         payload['event'] = json.dumps(entry)
             
         destCollector.batchEvent(payload)
 
-    destCollector.flushBatch()
+    if not hasSearchResults:
+        helper.log_info("Empty Search Results")
+    else:
+        destCollector.flushBatch()
+
     helper.log_info("Alert action sendtohec completed.")
     
     return 0
